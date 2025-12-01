@@ -1,0 +1,214 @@
+1. Code Structure Rules
+# 1.1 Project Structure
+# All code must follow a clean, layered structure:
+
+src/
+  modules/
+    <feature>/
+      components/
+      services/
+      api/
+      hooks/
+      utils/
+      types.ts
+      index.ts
+  config/
+  utils/
+  types/
+  lib/
+
+# 1.2 Module Structure
+# Every module MUST follow the same predictable structure:
+
+src/modules/<feature>/
+  components/
+  services/
+  api/
+  hooks/
+  utils/
+  types.ts
+  index.ts
+
+# types.ts → feature-specific types & interfaces
+# services/ → business logic
+# api/ → API handlers or HTTP requests
+# components/ → UI components (frontend only)
+# utils/ → pure helper functions
+# index.ts → centralized exports
+
+
+2. Consistent Implementation Pattern
+# 2.1 Naming Conventions
+# Files: kebab-case
+# Folders: kebab-case
+# Types & Interfaces: PascalCase
+# Classes: PascalCase
+# Functions & Variables: camelCase
+# Constants: SCREAMING_SNAKE_CASE
+
+# 2.2 Layered Pattern (Backend)
+# Use this hierarchy:
+# Controller → Service → Repository → Model
+
+# 2.3 Layered Pattern (Frontend)
+# Use this hierarchy:
+# UI Component → Hook → Service → API → Types
+# Never skip layers.
+
+
+3. Type Safety Rules
+# 3.1 TypeScript Strict Mode
+# These are mandatory:
+# "strict": true
+# "noImplicitAny": true
+# "strictNullChecks": true
+# "noUnusedLocals": true
+# "noUnusedParameters": true
+
+# 3.2 No any Allowed
+# Use unknown if necessary
+# Use generics whenever possible
+# All function parameters and return values MUST be typed
+
+# 3.3 Exhaustive Type Checking
+# Always use never for exhaustive checks:
+function assertNever(x: never): never {
+  throw new Error(`Unhandled case: ${x}`);
+}
+
+
+4. Code Quality Best Practices
+# 4.1 Single Responsibility
+# Every file, function, or class must do ONE job only.
+
+# 4.2 Pure Functions
+# Utilities must be pure and contain no side effects.
+
+# 4.3 Error Handling
+# All async functions must use:
+try {
+  ...
+} catch (error) {
+  handleError(error);
+}
+
+# Define a global error handler:
+interface AppError {
+  message: string
+  status?: number
+  cause?: unknown
+}
+
+# 4.4 Avoid Deep Nesting
+# Use early returns:
+
+# Bad practice:
+# if (condition) {
+#   if (x) {
+#     if (y) {
+#       ...
+#     }
+#   }
+# }
+
+# Good practice:
+# if (!condition) return;
+# if (!x) return;
+# if (!y) return;
+
+
+5. Formatting Rules
+# 5.1 ESLint + Prettier
+# Cursor must format all code using:
+# ESLint with TypeScript rules
+# Prettier for styling
+# No unused imports
+# No console.log (except debugging or explicit allowed files)
+
+# 5.2 Code Style
+# Line length max: 100 chars
+# Semicolons required
+# Use single quotes
+
+
+6. Import Rules
+# 6.1 No Deep Relative Imports
+# Never use:
+# ../../../utils
+
+# Always use path aliases:
+# import { getUser } from "@/modules/user/services/user.service";
+
+# 6.2 Named Exports Only
+# Do NOT use default exports.
+
+
+7. Component Rules (Frontend)
+# 7.1 Functional Components Only
+# No class components.
+
+# 7.2 Hooks Rules
+# One hook = one responsibility
+# Custom hooks must start with use
+# Hooks must be pure (no business logic inside UI components)
+
+# 7.3 Component Structure
+# Component pattern:
+export function UserCard({ user }: UserCardProps) {
+  const data = useUserData(user.id)
+  return <div>{data.name}</div>
+}
+
+
+8. API & Service Rules
+# 8.1 API layer
+# Must only contain:
+# Pure HTTP calls
+# Input/Output validation
+# Nothing else
+
+# 8.2 Service layer
+# Encapsulates business logic.
+
+# 8.3 No direct API calls inside UI components
+# Never call fetch or axios from UI components.
+
+
+9. Comments & Documentation
+# 9.1 Self-Documenting Code
+# Prefer readable names over comments.
+
+# 9.2 Use Comments Only When Necessary
+# Allowed when:
+# Logic is non-obvious
+# Business rules require explanation
+
+
+10. Git Rules
+# 10.1 Commit Messages
+# Use conventional commits:
+# feat: add user creation service
+# fix: correct API response type
+# refactor: improve component structure
+
+# 10.2 No commiting generated files
+# Except explicitly required.
+
+
+11. Cursor-Specific Rules
+# 11.1 Consistency Over Creativity
+# Cursor must ALWAYS follow the structure and patterns defined here.
+
+# 11.2 No Auto-Refactors That Break Structure
+# Any code generation must follow:
+# project structure
+# module structure
+# strict typing
+# layered architecture
+
+# 11.3 When Adding New Features
+# Cursor must:
+# Create a new module in /src/modules/<feature>/
+# Create types.ts, services/, api/, etc.
+# Follow all naming and structure rules
+# Update exports in index.ts
