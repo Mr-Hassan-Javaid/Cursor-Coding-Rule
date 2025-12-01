@@ -59,11 +59,11 @@ src/modules/<feature>/
 3. Type Safety Rules
 # 3.1 TypeScript Strict Mode
 # These are mandatory:
-# "strict": true
-# "noImplicitAny": true
-# "strictNullChecks": true
-# "noUnusedLocals": true
-# "noUnusedParameters": true
+ "strict": true
+ "noImplicitAny": true
+ "strictNullChecks": true
+ "noUnusedLocals": true
+ "noUnusedParameters": true
 
 # 3.2 No any Allowed
 # Use unknown if necessary
@@ -103,18 +103,18 @@ interface AppError {
 # Use early returns:
 
 # Bad practice:
-# if (condition) {
-#   if (x) {
-#     if (y) {
-#       ...
-#     }
-#   }
-# }
+ if (condition) {
+   if (x) {
+     if (y) {
+       ...
+     }
+   }
+ }
 
 # Good practice:
-# if (!condition) return;
-# if (!x) return;
-# if (!y) return;
+ if (!condition) return;
+ if (!x) return;
+ if (!y) return;
 
 
 5. Formatting Rules
@@ -134,10 +134,10 @@ interface AppError {
 6. Import Rules
 # 6.1 No Deep Relative Imports
 # Never use:
-# ../../../utils
+ ../../../utils
 
 # Always use path aliases:
-# import { getUser } from "@/modules/user/services/user.service";
+ import { getUser } from "@/modules/user/services/user.service";
 
 # 6.2 Named Exports Only
 # Do NOT use default exports.
@@ -187,9 +187,9 @@ export function UserCard({ user }: UserCardProps) {
 10. Git Rules
 # 10.1 Commit Messages
 # Use conventional commits:
-# feat: add user creation service
-# fix: correct API response type
-# refactor: improve component structure
+ feat: add user creation service
+ fix: correct API response type
+ refactor: improve component structure
 
 # 10.2 No commiting generated files
 # Except explicitly required.
