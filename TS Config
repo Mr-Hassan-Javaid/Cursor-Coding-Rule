@@ -1,0 +1,83 @@
+
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "display": "Strict TypeScript Config",
+
+  "compilerOptions": {
+    /* ===============================
+      Core Language Options
+    =============================== */
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"], 
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "jsx": "react-jsx",
+
+    /* ===============================
+      Project Structure
+    =============================== */
+    "rootDir": "src",
+    "outDir": "dist",
+    "baseUrl": "src",
+
+    /* ===============================
+      Path Aliases
+    =============================== */
+    "paths": {
+      "@/*": ["*"],
+      "@/modules/*": ["modules/*"],
+      "@/utils/*": ["utils/*"],
+      "@/types/*": ["types/*"]
+    },
+
+    /* ===============================
+      Strict Type Safety Rules
+    =============================== */
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true,
+
+    /* ===============================
+      Linting & Error Controls
+    =============================== */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+
+    /* ===============================
+      Module & Compatibility
+    =============================== */
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true
+  },
+
+  /* ===============================
+    Files to Include/Exclude
+  =============================== */
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "build"]
+}
+
+Features Enabled Documentation
+# Features Enabled
+
+Full strict mode
+
+Catches:
+- null/undefined usage
+- unsafe any
+- unsafe function types
+- uninitialized class properties
+
+Path aliases  
+Required for clean imports like:  
+
+import { UserService } from "@/modules/user/services/user.service";
