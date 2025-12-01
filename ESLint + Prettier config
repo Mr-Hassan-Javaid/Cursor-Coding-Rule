@@ -1,0 +1,126 @@
+1. .eslintrc.cjs (Recommended for Node + TS + Cursor)
+
+/* eslint-env node */
+module.exports = {
+  root: true,
+
+  env: {
+    es2023: true,
+    node: true,
+    browser: true,
+  },
+
+  parser: "@typescript-eslint/parser",
+
+  parserOptions: {
+    project: "./tsconfig.json",
+    tsconfigRootDir: __dirname,
+    sourceType: "module",
+  },
+
+  plugins: [
+    "@typescript-eslint",
+    "import",
+    "unused-imports",
+    "prettier",
+  ],
+
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended",
+    "plugin:import/typescript",
+    "plugin:prettier/recommended",
+  ],
+
+  rules: {
+    // Prettier must control style
+    "prettier/prettier": "error",
+
+    // Typescript strictness
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/consistent-type-imports": "error",
+    "@typescript-eslint/strict-boolean-expressions": "warn",
+    "@typescript-eslint/no-unused-vars": "off",
+
+    // Unused imports handled by plugin
+    "unused-imports/no-unused-imports": "error",
+    "unused-imports/no-unused-vars": [
+      "warn",
+      { varsIgnorePattern: "^_", argsIgnorePattern: "^_" },
+    ],
+
+    // Import rules
+    "import/no-default-export": "error",
+    "import/no-unresolved": "error",
+    "import/no-cycle": "error",
+    "import/order": [
+      "error",
+      {
+        alphabetize: { order: "asc", caseInsensitive: true },
+        groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
+        "newlines-between": "always",
+        pathGroups: [
+          {
+            pattern: "@/**",
+            group: "internal",
+          },
+        ],
+      },
+    ],
+
+    // Other best practices
+    "no-console": ["warn", { allow: ["warn", "error"] }],
+    "no-restricted-imports": [
+      "error",
+      {
+        patterns: ["../*../*"],
+      },
+    ],
+  },
+};
+
+
+2. .prettierrc
+
+{
+  "$schema": "https://json.schemastore.org/prettierrc",
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "endOfLine": "lf",
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "singleAttributePerLine": true
+}
+
+
+3. .prettierignore
+
+node_modules
+dist
+build
+coverage
+.next
+out
+package-lock.json
+pnpm-lock.yaml
+yarn.lock
+.env
+.env.*
+
+
+4. package.json Scripts
+
+{
+  "scripts": {
+    "lint": "eslint . --ext .ts,.tsx --fix",
+    "format": "prettier --write ."
+  }
+}
+
+
+
