@@ -1,0 +1,132 @@
+
+mkdir -p src/app/(routes)
+touch src/app/(routes)/page.tsx
+touch src/app/(routes)/layout.tsx
+
+mkdir -p src/modules/user/components
+touch src/modules/user/components/UserCard.tsx
+
+mkdir -p src/modules/user/hooks
+touch src/modules/user/hooks/useUser.ts
+
+mkdir -p src/modules/user/services
+touch src/modules/user/services/user.service.ts
+
+mkdir -p src/modules/user/api
+touch src/modules/user/api/user.api.ts
+
+mkdir -p src/modules/user/utils
+touch src/modules/user/utils/format-user.ts
+
+touch src/modules/user/types.ts
+touch src/modules/user/index.ts
+
+mkdir -p src/shared/components
+mkdir -p src/shared/hooks
+mkdir -p src/shared/utils
+mkdir -p src/shared/types
+
+mkdir -p src/lib/validators
+touch src/lib/http.ts
+
+mkdir -p src/styles
+
+mkdir -p src/app/(routes)
+export default function Page() {
+  return <h1>Hello World</h1>;
+}
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <html>
+      <body>{children}</body>
+    </html>
+  );
+}
+
+
+mkdir -p src/modules/user/components
+import type { User } from "../types";
+
+export function UserCard({ user }: { user: User }) {
+  return (
+    <div>
+      <strong>{user.name}</strong>
+      <p>{user.email}</p>
+    </div>
+  );
+}
+
+
+mkdir -p src/modules/user/hooks
+import { useEffect, useState } from 'react';
+import { UserService } from '../services/user.service';
+import type { User } from '../types';
+
+export function useUser(userId: string) {
+  const [data, setData] = useState<User | null>(null);
+
+  useEffect(() => {
+    UserService.getUser(userId).then(setData);
+  }, [userId]);
+
+  return data;
+}
+
+
+mkdir -p src/modules/user/services
+import { UserAPI } from '../api/user.api';
+import type { User } from '../types';
+
+export const UserService = {
+  async getUser(id: string): Promise<User> {
+    const user = await UserAPI.getUser(id);
+    return user;
+  },
+};
+
+
+mkdir -p src/modules/user/api
+import { http } from '@/lib/http';
+import type { User } from '../types';
+
+export const UserAPI = {
+  async getUser(id: string): Promise<User> {
+    return http.get(`/users/${id}`);
+  },
+};
+
+
+mkdir -p src/modules/user/utils
+import type { User } from "../types";
+
+export function formatUser(user: User): string {
+  return `${user.name} <${user.email}>`;
+}
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+export * from "./types";
+export * from "./components/UserCard";
+export * from "./hooks/useUser";
+export * from "./services/user.service";
+
+
+mkdir -p src/shared/components
+mkdir -p src/shared/hooks
+mkdir -p src/shared/utils
+mkdir -p src/shared/types
+
+mkdir -p src/lib/validators
+export const http = {
+  async get<T>(url: string): Promise<T> {
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`Failed GET ${url}`);
+    return res.json() as Promise<T>;
+  },
+};
+mkdir -p src/styles
