@@ -1,0 +1,113 @@
+
+mkdir -p src/modules/user/controllers
+import type { Request, Response } from "express";
+import { UserService } from "../services/user.service";
+
+export const UserController = {
+  async getUser(req: Request, res: Response) {
+    const user = await UserService.getUser(req.params.id);
+    res.json(user);
+  },
+};
+
+
+mkdir -p src/modules/user/services
+import { UserRepository } from "../repositories/user.repository";
+
+export const UserService = {
+  async getUser(id: string) {
+    const user = await UserRepository.findById(id);
+    if (!user) {
+      throw new Error("User not found");
+    }
+    return user;
+  },
+};
+
+
+mkdir -p src/modules/user/repositories
+import { db } from "@/config/db";
+import type { User } from "../types";
+
+export const UserRepository = {
+  async findById(id: string): Promise<User | null> {
+    return db.user.findUnique({ where: { id } });
+  },
+};
+
+
+mkdir -p src/modules/user/models
+// Example Prisma model definition placeholder
+export const UserModel = {};
+
+
+mkdir -p src/modules/user/validators
+import { z } from "zod";
+
+export const UserIdSchema = z.string().uuid();
+
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+}
+
+
+
+export * from "./types";
+export * from "./controllers/user.controller";
+export * from "./services/user.service";
+export * from "./repositories/user.repository";
+export * from "./models/user.model";
+export * from "./validators/user.schema";
+
+
+mkdir -p src/config
+export const env = {
+  NODE_ENV: process.env.NODE_ENV || "development",
+  DATABASE_URL: process.env.DATABASE_URL || "",
+};
+
+
+
+// Example db client placeholder
+export const db = {
+  user: {
+    findUnique: async ({ where }: any) => {
+      return { id: where.id, name: "Test User", email: "test@example.com" };
+    },
+  },
+};
+
+
+mkdir -p src/core/http
+import type { Express } from "express";
+import { UserController } from "@/modules/user/controllers/user.controller";
+
+export function registerRoutes(app: Express) {
+  app.get("/users/:id", UserController.getUser);
+}
+
+
+mkdir -p src/core/errors
+mkdir -p src/core/middleware
+mkdir -p src/utils
+
+
+import express from "express";
+import { registerRoutes } from "./core/http/register-routes";
+
+export const app = express();
+app.use(express.json());
+
+registerRoutes(app);
+
+
+
+import { app } from "./app";
+
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+  console.log(`API running on port ${PORT}`);
+});
+
