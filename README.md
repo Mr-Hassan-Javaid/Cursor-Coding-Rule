@@ -1,2 +1,10 @@
 # Cursor-Coding-Rule
-This repo is about cursor coding rule how to make it more effective
+
+
+# ---------------------------------------------------------
+#  Project Coding Rules Script
+#  This script prints the coding rules/guidelines used in
+#  this repository, intended for use with Cursor or GitHub.
+# ---------------------------------------------------------
+
+
